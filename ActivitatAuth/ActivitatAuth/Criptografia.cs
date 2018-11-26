@@ -25,7 +25,7 @@ namespace ActivitatAuth
             try
             {
 
-
+                return true;
             }
             catch
             {
@@ -48,14 +48,15 @@ namespace ActivitatAuth
         {
             try
             {
-               
-
+                byte[] sal = CalculaSalAleatoria();
+                string hash = CalculaHash(password, sal);
+                Utils.IniFile();
+                Utils.EscriuFitxer(user, hash);
                 return true;
             }
             catch
             {
                 return false;
-
             }
         }
 
@@ -116,7 +117,8 @@ namespace ActivitatAuth
 
                 var pbkdf2 = new Rfc2898DeriveBytes(password, sal, 1000);
                 byte[] hash = pbkdf2.GetBytes(LongHash);
-                return Convert.ToBase64String(sal) + Convert.ToBase64String(hash);
+                // better return salt and hash separated with comma to have it done for later
+                return Convert.ToBase64String(sal) + "," + Convert.ToBase64String(hash);
 
             }
             catch
