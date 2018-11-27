@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace ActivitatAuth
 
@@ -30,12 +31,14 @@ namespace ActivitatAuth
                 if (userInfo != null)
                 {
 
-                    string introducedPassword = CalculaHash(password, System.Text.Encoding.ASCII.GetBytes(userInfo[1]));
+                    string introducedPassword = CalculaHash(password, Encoding.ASCII.GetBytes(userInfo[1]));
+                    Console.WriteLine("\nStored TODO LO QUE DEVUELVE EL HASHCALCUL: " + introducedPassword);
                     introducedPassword = introducedPassword.Substring(introducedPassword.IndexOf(',')+1);
-                    Console.WriteLine("\nStored SALT" + userInfo[1]);
+                    Console.WriteLine("\nStored SALT: " + userInfo[1]);
                     Console.WriteLine("\n"+introducedPassword);
 
                     string storedHashedPassword = userInfo[2];
+                    Console.WriteLine("\n" + Encoding.ASCII.GetBytes(userInfo[1]));
                     Console.WriteLine("\n" + storedHashedPassword);
                     if (introducedPassword.Equals(storedHashedPassword))
                     {
@@ -49,8 +52,6 @@ namespace ActivitatAuth
                         return false;
 
                     }
-
-
 
                 }
                 else
