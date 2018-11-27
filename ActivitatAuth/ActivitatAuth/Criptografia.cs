@@ -25,14 +25,44 @@ namespace ActivitatAuth
             try
             {
 
-                return true;
+                string[] userInfo = Utils.LlegirUsuari(user);
+
+                if (userInfo != null)
+                {
+
+                    string introducedPassword = CalculaHash(password, System.Text.Encoding.ASCII.GetBytes(userInfo[1]));
+                    introducedPassword = introducedPassword.Substring(introducedPassword.IndexOf(',')+1);
+                    Console.WriteLine("\nStored SALT" + userInfo[1]);
+                    Console.WriteLine("\n"+introducedPassword);
+
+                    string storedHashedPassword = userInfo[2];
+                    Console.WriteLine("\n" + storedHashedPassword);
+                    if (introducedPassword.Equals(storedHashedPassword))
+                    {
+                        Console.WriteLine("\nAutenticacio correcta");
+                        return true;
+
+                    }
+                    else
+                    {
+                        Console.WriteLine("\nAutenticacio incorrecta");
+                        return false;
+
+                    }
+
+
+
+                }
+                else
+                {
+                    Console.WriteLine("\nAquest usuari no existeix");
+                    return false;
+                }
             }
             catch
             {
                 return false;
             }
-
-
         }
 
 

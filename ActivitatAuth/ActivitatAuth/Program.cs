@@ -4,6 +4,7 @@ namespace ActivitatAuth
 {
     class MainClass
     {
+
         public static void Main(string[] args)
         {
             Utils.IniFile();
@@ -25,6 +26,8 @@ namespace ActivitatAuth
                     option = Console.ReadKey(true);
                 } while (option.KeyChar < '0' || option.KeyChar > '2');
                 Console.Clear();
+                string user;
+                string password;
                 switch (option.KeyChar)
                 {
                     // Validar usuari
@@ -32,8 +35,18 @@ namespace ActivitatAuth
                     // si el vàlid es mostra el missatge de benvinguda
                     // cas contrari es mostra un avís
                     case '1':
+                        Console.Write("Has escollit autenticarte.\nIntrodueix el nom d'usuari: ");
+                        user = Utils.EntraUsuari();
+                        Console.Write("\nIntrodueix el password: ");
+                        password = Criptografia.EntraPassword();
 
+                        bool registeredUser = Criptografia.ComprovaUsuari(user, password);
+
+                        user = null;
+                        password = null;
+                        Console.ReadKey();
                         break;
+
 
 
 
@@ -51,19 +64,19 @@ namespace ActivitatAuth
                             Console.Write("Has escollit registarte.\nIntrodueix el nou nom d'usuari: ");
                             bool validUser = false;
 
-                        string user = Utils.EntraUsuari();
+                        user = Utils.EntraUsuari();
                         if (validUser = Utils.ValidaUsuariRegex(user))
                         {
                             Console.Write("\nUsuari correcte\n\n");
                             Console.Write("\nIntrodueix el password: ");
-                            string password = Criptografia.EntraPassword();
+                            password = Criptografia.EntraPassword();
                             Console.Write("\nTorna a introduir el password: ");
                             string repeatPassword = Criptografia.EntraPassword();
 
                             if (password.Equals(repeatPassword))
                             {
                                 Console.Write("\nPassword correcte. Usuari creat correctament");
-                                bool onCreateUserSucced = Criptografia.AltaUsuari(user, password);
+                                bool onCreateUserSucced = Criptografia.AltaUsuari(user, password); 
                             }
                             else
                             {
@@ -74,6 +87,8 @@ namespace ActivitatAuth
                         {
                             Console.Write("\nAquest usuari ja existeix");
                         }
+                            user = null;
+                            password = null;
                             Console.ReadKey();
                     }
                         break;

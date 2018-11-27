@@ -39,7 +39,9 @@ namespace ActivitatAuth
                 {
                     w.WriteLine(linia);
                 }
+
                 System.Diagnostics.Process.Start(FitxerUsuaris); // Open file to check inserted values
+                
                 return true;
             }
             catch
@@ -103,13 +105,34 @@ namespace ActivitatAuth
         /// </summary>
         /// <param name="nomUsuari"></param>
         /// <returns>Retorna null si no troba l'usuari i el string de hash si el troba</returns>
-        public static string LlegirUsuari(string nomUsuari)
+        public static string[] LlegirUsuari(string nomUsuari)
         {
-            string text = "";
+            // int index = text.IndexOf(',');
+            // string resultText = text.Substring(0, index);
 
-            return text;
-           
+            string[] array;
 
+
+            using (StreamReader lector = new StreamReader(FitxerUsuaris))
+            {
+
+                while (!lector.EndOfStream)
+                {
+                    while (lector.Peek() > -1)
+                    {
+                        string linia = lector.ReadLine();
+
+                        if (!String.IsNullOrEmpty(linia))
+                        {
+                            array = linia.Split(',');
+                            if(array[0].Equals(nomUsuari)) 
+                                return array;
+                        }                  
+                    }
+
+                }
+            }
+            return null;
         }
 
 
