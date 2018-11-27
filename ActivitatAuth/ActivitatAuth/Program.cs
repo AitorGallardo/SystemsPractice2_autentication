@@ -59,39 +59,48 @@ namespace ActivitatAuth
 
 
                     case '2': // Falta comprobar si el usuario yas existe || Podria dar la opcion de volver a introducir valores 
-                        {     // || controlar el error si no introduces nada || catch con los errores posibles
+                             // || controlar el error si no introduces nada || catch con los errores posibles
 
-                            Console.Write("Has escollit registarte.\nIntrodueix el nou nom d'usuari: ");
-                            bool validUser = false;
+                        Console.Write("Has escollit registarte.\nIntrodueix el nou nom d'usuari: ");
+                        bool validUser = false;
 
                         user = Utils.EntraUsuari();
-                        if (validUser = Utils.ValidaUsuariRegex(user))
+                        if (Utils.LlegirUsuari(user)==null)
                         {
-                            Console.Write("\nUsuari correcte\n\n");
-                            Console.Write("\nIntrodueix el password: ");
-                            password = Criptografia.EntraPassword();
-                            Console.Write("\nTorna a introduir el password: ");
-                            string repeatPassword = Criptografia.EntraPassword();
-
-                            if (password.Equals(repeatPassword))
+                            if (validUser = Utils.ValidaUsuariRegex(user))
                             {
-                                Console.Write("\nPassword correcte. Usuari creat correctament");
-                                bool onCreateUserSucced = Criptografia.AltaUsuari(user, password); 
+                                Console.Write("\nUsuari correcte\n\n");
+                                Console.Write("\nIntrodueix el password: ");
+                                password = Criptografia.EntraPassword();
+                                Console.Write("\nTorna a introduir el password: ");
+                                string repeatPassword = Criptografia.EntraPassword();
+
+                                if (password.Equals(repeatPassword))
+                                {
+                                    Console.Write("\nPassword correcte. Usuari creat correctament");
+                                    bool onCreateUserSucced = Criptografia.AltaUsuari(user, password); 
+                                }
+                                else
+                                {
+                                    Console.Write("\nEls passwords no concideixen");
+                                }
                             }
                             else
                             {
-                                Console.Write("\nEls passwords no concideixen");
+                                Console.Write("\nUsuari incorrecte.\n Mida de 4 a 24 caràcters \n Caracters acceptats: numeros, lletres, '.','-','_' " +
+                                                "\n L'usuari ha de començar per una lletra. \n No pot acabar en '.','-','._' o '-_'");
                             }
                         }
                         else
                         {
-                            Console.Write("\nAquest usuari ja existeix");
+                        Console.Write("\nAquest usuari ja existeix");
                         }
-                            user = null;
-                            password = null;
-                            Console.ReadKey();
-                    }
-                        break;
+
+                        user = null;
+                        password = null;
+                        Console.ReadKey();
+
+                        break;  
 
 
                     // Sortim del programa   
