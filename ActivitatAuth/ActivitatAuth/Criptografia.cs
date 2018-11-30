@@ -31,7 +31,7 @@ namespace ActivitatAuth
                 if (userInfo != null)
                 {
 
-                    string introducedPassword = CalculaHash(password, Encoding.ASCII.GetBytes(userInfo[1]));
+                    string introducedPassword = CalculaHash(password, Convert.FromBase64String(userInfo[1]));
                     Console.WriteLine("\nStored TODO LO QUE DEVUELVE EL HASHCALCUL: " + introducedPassword);
                     introducedPassword = introducedPassword.Substring(introducedPassword.IndexOf(',')+1);
                     Console.WriteLine("\nStored SALT: " + userInfo[1]);
