@@ -32,10 +32,14 @@ namespace ActivitatAuth
                 {
 
 <<<<<<< HEAD
+<<<<<<< HEAD
                     string introducedPassword = CalculaHash(password, Convert.FromBase64String(userInfo[1]));
 =======
                     string introducedPassword = CalculaHash(password, ) ); // Encoding.ASCII.GetBytes(userInfo[1])
 >>>>>>> Model created
+=======
+                    string introducedPassword = CalculaHash(password, ) ); // Encoding.ASCII.GetBytes(userInfo[1])
+>>>>>>> 0aa7b36096fdb004925c4dbc88c2545b9b0d8ed7
                     Console.WriteLine("\nStored TODO LO QUE DEVUELVE EL HASHCALCUL: " + introducedPassword);
                     introducedPassword = introducedPassword.Substring(introducedPassword.IndexOf(',')+1);
                     Console.WriteLine("\nStored SALT: " + userInfo[1]);
