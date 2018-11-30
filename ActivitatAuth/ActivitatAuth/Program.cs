@@ -10,6 +10,7 @@ namespace ActivitatAuth
             Utils.IniFile();
             bool exit = false;
             ConsoleKeyInfo option;
+            ConsoleKeyInfo loggedOption;
             Console.Clear();
             while (!exit)
             {
@@ -41,6 +42,25 @@ namespace ActivitatAuth
                         password = Criptografia.EntraPassword();
 
                         bool registeredUser = Criptografia.ComprovaUsuari(user, password);
+
+                        if (registeredUser)
+                        {
+                            Console.WriteLine("0............. Tancar sesió");
+                            Console.WriteLine("1............. Canviar password");
+                            do
+                            {
+                                loggedOption = Console.ReadKey(true);
+                            } while (option.KeyChar != '0' || option.KeyChar != '1') ;
+                            switch (loggedOption.KeyChar)
+                            {
+                                case '0':
+                                    Console.Write("\nHas escollit tancar sesió");
+                                    break;
+                                case '1':
+                                    break;
+                            }
+
+                        }
 
                         user = null;
                         password = null;
