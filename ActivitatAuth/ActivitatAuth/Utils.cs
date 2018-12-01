@@ -40,7 +40,7 @@ namespace ActivitatAuth
                     w.WriteLine(linia);
                 }
 
-                System.Diagnostics.Process.Start(FitxerUsuaris); // Open file to check inserted values
+                // System.Diagnostics.Process.Start(FitxerUsuaris); // Open file to check inserted values
                 
                 return true;
             }
@@ -67,6 +67,7 @@ namespace ActivitatAuth
         {
 
             Regex expression = new Regex(@"^[a-zA-Z][a-zA-Z0-9\._\-]{3,23}[a-zA-Z0-9]$");
+   
             bool resultat = expression.IsMatch(nomUsuari);
 
             return resultat;
@@ -93,7 +94,7 @@ namespace ActivitatAuth
 
                 }
             }
-            while (key.Key != ConsoleKey.Enter);
+            while (key.Key != ConsoleKey.Enter ||  nomUsuari == null);
             return nomUsuari;
 
         }
@@ -107,8 +108,6 @@ namespace ActivitatAuth
         /// <returns>Retorna null si no troba l'usuari i el string de hash si el troba</returns>
         public static string[] LlegirUsuari(string nomUsuari)
         {
-            // int index = text.IndexOf(',');
-            // string resultText = text.Substring(0, index);
 
             string[] array;
 
@@ -134,6 +133,59 @@ namespace ActivitatAuth
             }
             return null;
         }
+
+        static void lineChanger(string nomUsuari, string hashUsuari, int line_to_edit)
+        {
+            string line = nomUsuari + "," + hashUsuari;
+            string[] arrLine = File.ReadAllLines(FitxerUsuaris);
+            if(arrLine.Length >= line_to_edit)
+            {
+                arrLine[line_to_edit] = line; // potser -1 no necessari
+                File.WriteAllLines(FitxerUsuaris, arrLine);
+                // System.Diagnostics.Process.Start(FitxerUsuaris); // Open file to check inserted values
+            }
+
+        }
+
+
+        public static bool overrideFile (string user, string saltHash)
+        {
+
+            string[] array;
+            int lineCounter = 0;
+            try
+            {
+                using (StreamReader lector = new StreamReader(FitxerUsuaris))
+                {
+
+                    while (!lector.EndOfStream)
+                    {
+                        while (lector.Peek() > -1)
+                        {
+                            string linia = lector.ReadLine();
+
+                            if (!String.IsNullOrEmpty(linia))
+                            {
+                                array = linia.Split(',');
+                                if (array[0].Equals(user))
+                                {
+                                    lineChanger(user, saltHash, lineCounter);
+                                    return true;
+                                }
+                                lineCounter++;
+                            }
+                        }
+
+                    }
+                }
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
 
 
 

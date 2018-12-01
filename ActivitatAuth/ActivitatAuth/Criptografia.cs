@@ -31,32 +31,19 @@ namespace ActivitatAuth
                 if (userInfo != null)
                 {
 
-<<<<<<< HEAD
-<<<<<<< HEAD
                     string introducedPassword = CalculaHash(password, Convert.FromBase64String(userInfo[1]));
-=======
-                    string introducedPassword = CalculaHash(password, ) ); // Encoding.ASCII.GetBytes(userInfo[1])
->>>>>>> Model created
-=======
-                    string introducedPassword = CalculaHash(password, ) ); // Encoding.ASCII.GetBytes(userInfo[1])
->>>>>>> 0aa7b36096fdb004925c4dbc88c2545b9b0d8ed7
-                    Console.WriteLine("\nStored TODO LO QUE DEVUELVE EL HASHCALCUL: " + introducedPassword);
                     introducedPassword = introducedPassword.Substring(introducedPassword.IndexOf(',')+1);
-                    Console.WriteLine("\nStored SALT: " + userInfo[1]);
-                    Console.WriteLine("\n"+introducedPassword);
-
                     string storedHashedPassword = userInfo[2];
-                    Console.WriteLine("\n" + Encoding.ASCII.GetBytes(userInfo[1]));
-                    Console.WriteLine("\n" + storedHashedPassword);
+
                     if (introducedPassword.Equals(storedHashedPassword))
                     {
-                        Console.WriteLine("\nAutenticacio correcta");
+                        Console.WriteLine("Autenticacio correcta");
                         return true;
 
                     }
                     else
                     {
-                        Console.WriteLine("\nAutenticacio incorrecta");
+                        Console.WriteLine("Autenticacio incorrecta");
                         return false;
 
                     }
@@ -64,7 +51,7 @@ namespace ActivitatAuth
                 }
                 else
                 {
-                    Console.WriteLine("\nAquest usuari no existeix");
+                    Console.WriteLine("Aquest usuari no existeix");
                     return false;
                 }
             }
@@ -125,7 +112,7 @@ namespace ActivitatAuth
 
                 }
             }
-            while (key.Key != ConsoleKey.Enter);
+            while (key.Key != ConsoleKey.Enter || password == null);
             return password;
 
         }
@@ -165,6 +152,14 @@ namespace ActivitatAuth
                 return null;
             }
 
+        }
+
+        public static bool changePassword(string nomUsuari, string password)
+        {
+            byte[] sal = CalculaSalAleatoria();
+            string hash = CalculaHash(password, sal);
+
+            return Utils.overrideFile(nomUsuari, hash);
         }
 
     }
